@@ -23,7 +23,6 @@ class baiduNews(object):
         try:
             request = requests.get(url=self.url, timeout=10)
             # 如果编码是gb18030
-            self.main_word = "东城区"
             request.encoding = 'gb18030'
             word = re.findall(r'{0}'.format(self.main_word).encode('utf-8'), request.text.encode('utf-8'))
             if word.__len__() == 0:
