@@ -21,7 +21,7 @@ class baiduNews(object):
     # 匹配字符串
     def string_matching(self, file):
         try:
-            request = requests.get(url=self.url, timeout=10)
+            request = requests.get(url=self.url, timeout=3)
             # 如果编码是gb18030
             request.encoding = 'gb18030'
             word = re.findall(r'{0}'.format(self.main_word).encode('utf-8'), request.text.encode('utf-8'))
