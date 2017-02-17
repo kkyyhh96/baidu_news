@@ -21,14 +21,17 @@ class baiduNews(object):
     # 匹配字符串
     def string_matching(self, file):
         try:
-            request = requests.get(url=self.url, timeout=3)
+            headers={
+                "User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+            }
+            request = requests.get(url=self.url,headers=headers, timeout=3)
             # 如果编码是gb18030
             request.encoding = 'gb18030'
-            word = re.findall(r'{0}'.format(self.main_word).encode('utf-8'), request.text.encode('utf-8'))
+            word = re.findall(r'{0}'.format("的").encode('utf-8'), request.text.encode('utf-8'))
             if word.__len__() == 0:
                 # 如果编码是utf-8
                 request.encoding = 'utf-8'
-                word = re.findall(r'{0}'.format(self.main_word).encode('utf-8'), request.text.encode('utf-8'))
+                word = re.findall(r'{0}'.format("的").encode('utf-8'), request.text.encode('utf-8'))
 
             # 如果长度大于0则解析成功,可以进行其他字符串的匹配
             if word.__len__() > 0:
@@ -38,9 +41,6 @@ class baiduNews(object):
                         file.writelines("1,")
                     else:
                         file.writelines("0,")
-            else:
-                self.queue_word = queue.Empty
-
         except Exception as e:
             print(e)
 
@@ -48,7 +48,6 @@ class baiduNews(object):
     def write_info(self, file):
         try:
             file.writelines("\n{0},{1},".format(str(self.url), str(self.date)))
-
             self.string_matching(file)
         except Exception as e:
             print(e)

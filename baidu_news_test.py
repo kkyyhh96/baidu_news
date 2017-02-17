@@ -6,6 +6,7 @@ import requests
 import datetime
 import time
 from bs4 import BeautifulSoup
+import re
 from baidu_news_api import baidu_news
 
 #计算时间
@@ -23,3 +24,12 @@ words1='(门头沟区 | 房山区 | 通州区 | 顺义区 | 昌平区 | 大兴�
 words2='(怀柔区 | 平谷区 | 密云区 | 延庆区)'
 compute_date(2017,1,6,2017,2,10)
 
+url_test="http://www.beijing.gov.cn/zfzx/qxrd/hdq/t1257589.htm"
+headers={
+    "User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+}
+request = requests.get(url=url_test,headers=headers, timeout=3)
+request.encoding='gb18030'
+print(request.text)
+word = re.findall(r'{0}'.format("海淀").encode('utf-8'), request.text.encode('utf-8'))
+print(word)
