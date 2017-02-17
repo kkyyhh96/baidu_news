@@ -4,8 +4,6 @@
 
 import requests
 import datetime
-import time
-from bs4 import BeautifulSoup
 import re
 
 #计算时间
