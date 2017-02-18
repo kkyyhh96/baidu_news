@@ -10,7 +10,7 @@ from baiduNews import baiduNews
 
 
 # 传入关键词,获取一页所有的新闻内容(20条)
-def search_words(url, words, count,begin_time=0,end_time=0):
+def search_words(url, words, count,begin_time='0',end_time='0'):
     params = {
         "word": str(words),
         "pn": str(count),
@@ -19,25 +19,32 @@ def search_words(url, words, count,begin_time=0,end_time=0):
         "tn": "newsdy",
         "rn": "20",
         "ie": "utf-8",
-        "bt": str(begin_time),
-        "et": str(end_time)
+        "bt": begin_time,
+        "et": end_time
     }
-    request = requests.get(url=url, params=params, timeout=5)
-    print(request.url)
-    #print(request.text)
-    return request.text
+    try:
+        request = requests.get(url=url, params=params, timeout=10)
+        print(request.url)
+        return request.text
+    except Exception as e:
+        print(e)
+        return None
 
 
 # 提取出本页的新闻,如果结束返回True,如果所有新闻查询完毕,返回False
 def translate_url(html, words):
-    soup = BeautifulSoup(html, 'html.parser')
-    count = 0
-    while count < 20:
-        if create_news(soup, words, count):
-            count += 1
-        else:
-            return False
-    return True
+    try:
+        soup = BeautifulSoup(html, 'html.parser')
+        count = 0
+        while count < 20:
+            if create_news(soup, words, count):
+                count += 1
+            else:
+                return False
+        return True
+    except Exception as e:
+        print(e)
+        return True
 
 
 # 提取新闻日期和url,如果提取成功返回True,否则返回False
@@ -80,6 +87,9 @@ while temp_time<=end_date:
     file=open("1.txt".format(words),'a')
     count = 0
     html = search_words(url, words, count,begin_time,end_time)
+    #如果百度新闻出现问题,重新发送请求
+    while html is None:
+        html=search_words(url, words, count,begin_time,end_time)
     while translate_url(html, words):
         count += 20
         print(count)

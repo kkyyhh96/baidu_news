@@ -6,8 +6,8 @@ import re
 
 import requests
 
-words = ["东城区", "西城区", "朝阳区", "丰台区", "石景山区", "海淀区", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云区",
-         "延庆区"]
+words = ["东城区", "西城区", "朝阳区", "丰台区", "石景山区", "海淀区", "门头沟区", "房山区", "通州区", "顺义区", "昌平区", "大兴区", "怀柔区", "平谷区", "密云",
+         "延庆"]
 
 
 # 百度新闻类,包括url,时间,题目,需要查询的字符串
@@ -24,7 +24,7 @@ class baiduNews(object):
             headers={
                 "User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
             }
-            request = requests.get(url=self.url,headers=headers, timeout=3)
+            request = requests.get(url=self.url,headers=headers, timeout=15)
             # 如果编码是gb18030
             request.encoding = 'gb18030'
             word = re.findall(r'{0}'.format("的").encode('utf-8'), request.text.encode('utf-8'))
