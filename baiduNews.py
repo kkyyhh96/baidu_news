@@ -1,7 +1,6 @@
 # coding:utf-8
 # version:python3.5.1
 # author:kyh
-import queue
 import re
 
 import requests
@@ -21,10 +20,10 @@ class baiduNews(object):
     # 匹配字符串
     def string_matching(self, file):
         try:
-            headers={
-                "User-Agent":"Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
+            headers = {
+                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/50.0.2661.102 Safari/537.36"
             }
-            request = requests.get(url=self.url,headers=headers, timeout=10)
+            request = requests.get(url=self.url, headers=headers, timeout=10)
             # 如果编码是gb18030
             request.encoding = 'gb18030'
             word = re.findall(r'{0}'.format("的").encode('utf-8'), request.text.encode('utf-8'))
